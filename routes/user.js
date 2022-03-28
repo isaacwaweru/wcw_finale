@@ -16,9 +16,9 @@ const {
 router.post('/user',
     signUp
 )
-// router.post('/user',
-//     signIn
-// )
+router.post('/login',
+    signIn
+)
 router.put('/user/:id',
     auth,
     updateSignUp

@@ -1,17 +1,18 @@
 const User = require('../models').User
 const bcrypt = require("bcrypt");
+const jwt = require("../util/jwt.js");
 
 module.exports = {
 
     // create account check
     signUp: (req, res) => {
         let { firstName, lastName, email,password,profileImage,role} = req.body
-        bcrypt.hash(password, 10).then((hash) => {
+        bcrypt.hash(password, 10).then((password) => {
             User.create({
                 firstName,
                 lastName,
                 email,
-                hash,
+                password,
                 profileImage,
                 role
             }).then((user) => {
@@ -23,6 +24,39 @@ module.exports = {
                 })
               });
           });
+    },
+
+    // create account check
+    signIn: (req, res) => {
+        let { email, password } = req.body
+        User.findOne({
+            where: {email:email}
+        }).then( user => {
+            if (!user) {
+                return res.status(401).json({
+                  error: "User not found!",
+                });
+              }
+              bcrypt
+      .compare(password, user.password)
+      .then((valid) => {
+        if (!valid) {
+          return res.status(401).json({
+            error: "Incorrect details!",
+          });
+        }
+        const token = jwt.sign({ userId: user.id});
+        res.status(200).json({
+          user: user,
+          token: token
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error: error,
+        });
+      });
+        });
     },
 
     updateSignUp: (req, res) => {
