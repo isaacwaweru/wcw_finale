@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "wcw",
+    "password": "kxwRtr+SScl1LWP2",
+    "database": "wcw_dev",
+    "host": "34.90.100.224",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
